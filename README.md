@@ -1,7 +1,17 @@
 NgDexie
 =======
 
-Angular wrapper around the DexieJS library
+Angular wrapper around the DexieJS library.
+
+This documentation is not yet complete and can only be used as guides to get started.
+
+You need to insert the DexieJS libraries into your app.
+DexieJS: https://github.com/dfahlander/Dexie.js
+
+If you want to use the synchronisation part of the library you need to add:
+Dexie.Observable
+Dexie.Syncable
+
 
 Load ngDexie as this:
 
