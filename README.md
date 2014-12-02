@@ -1,10 +1,9 @@
-NgDexie
-=======
+#NgDexie#
 
 Angular wrapper around the DexieJS library.
 
-Bower
-=====
+##Bower##
+
 You can use bower to install NgDexie which will also install the latest Dexie
 ```
 bower install ng-dexie --save
@@ -15,9 +14,9 @@ This documentation is not yet complete and can only be used as guides to get sta
 You need to insert the DexieJS libraries into your app.<br/>
 DexieJS: https://github.com/dfahlander/Dexie.js
 
-If you want to use the synchronisation part of the library you need to add:<br/>
-Dexie.Observable<br/>
-Dexie.Syncable<br/>
+If you want to use the synchronisation part of the library you need to add:
+* Dexie.Observable
+* Dexie.Syncable
 
 
 Load ngDexie as this:
