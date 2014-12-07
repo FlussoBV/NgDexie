@@ -119,10 +119,15 @@ NgDexie.prototype.getByKey = function (storeName, index, key) {
  * Save an deepcloned value to the database (without $$hashKey)
  * @param {type} storeName
  * @param {type} value
- * @returns {undefined}
+ * @returns {NgDexie@call;getQ@call;defer.promise}
  */
 NgDexie.prototype.put = function (storeName, value) {
-    this.getDb().table(storeName).put(this.deepClone(value));
+    var deferred = this.getQ().defer();
+    this.getDb().table(storeName).put(this.deepClone(value)).then(function(data){
+        deferred.resolve(data);
+    });
+    
+    return deferred.promise;
 };
 
 /**
