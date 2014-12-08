@@ -158,6 +158,25 @@ NgDexie.prototype.resync = function (url, storeNames) {
 };
 
 /**
+ * Check if there are synchronisation changes
+ * @param {type} url
+ * @param {type} storeNames
+ * @returns {undefined}
+ */
+NgDexie.prototype.unsyncedChanges = function (url) {
+    var deferred = this.getQ().defer();
+    
+    var cdb = this.getDb();
+    if (angular.isDefined(cdb) && cdb.isOpen()) {
+        cdb.syncable.unsyncedChanges(url).then(function (data) {
+            deferred.resolve(data);
+        });
+    }
+
+    return deferred.promise;
+};
+
+/**
  * Will use the deepClone from Dexie and removes the $$hashKey from the ngRepeat
  * @param {type} value
  * @returns {unresolved}
