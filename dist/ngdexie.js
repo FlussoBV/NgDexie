@@ -9,7 +9,7 @@ angular.module('idb.utils', ['ng']);
  * NgDexie Class
  * @param {type} $http
  * @param {type} $q
- * @param {type} $timeout
+ * @param {type} $log
  * @returns {NgDexie}
  */
 var NgDexie = function ($http, $q, $log) {
@@ -104,6 +104,7 @@ NgDexie.prototype.get = function (storeName, key) {
 /**
  * Get one entrie from the database
  * @param {type} storeName
+ * @param {type} index
  * @param {type} key
  * @returns {NgDexie@call;getQ@call;defer.promise}
  */
@@ -126,7 +127,6 @@ NgDexie.prototype.put = function (storeName, value) {
     this.getDb().table(storeName).put(this.deepClone(value)).then(function(data){
         deferred.resolve(data);
     });
-    
     return deferred.promise;
 };
 
