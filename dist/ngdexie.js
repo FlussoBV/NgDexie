@@ -127,13 +127,13 @@ NgDexie.prototype.get = function (storeName, key) {
 };
 
 /**
- * Get one entrie from the database
+ * Get entries from the database
  * @param {type} storeName
  * @param {type} index
  * @param {type} key
  * @returns {NgDexie@call;getQ@call;defer.promise}
  */
-NgDexie.prototype.getByKey = function (storeName, index, key) {
+NgDexie.prototype.getByIndex = function (storeName, index, key) {
     var deferred = this.getQ().defer();
     this.getDb().table(storeName).where(index).equals(key).toArray(function (data) {
         deferred.resolve(data);
