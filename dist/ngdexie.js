@@ -12,12 +12,18 @@ angular.module('idb.utils', ['ng']);
  * @param {type} $log
  * @returns {NgDexie}
  */
-var NgDexie = function ($http, $q, $log) {
+var NgDexie = function ($rootScope, $http, $q, $log) {
+    this.scope_ = $rootScope;
     this.http_ = $http;
     this.q_ = $q;
     this.log_ = $log;
     this.db = null;
     this.options = {};
+    this.syncNeeded = false;
+
+    this.getScope = function () {
+        return this.scope_;
+    };
 
     this.getQ = function () {
         return this.q_;
@@ -38,6 +44,14 @@ var NgDexie = function ($http, $q, $log) {
     this.getOptions = function () {
         return this.options;
     };
+
+    this.setSyncNeeded = function (value) {
+        this.syncNeeded = value;
+    };
+
+    this.getSyncNeeded = function () {
+        return this.syncNeeded;
+    };
 };
 
 /**
@@ -48,14 +62,15 @@ var NgDexie = function ($http, $q, $log) {
  * @returns {NgDexie@call;getQ@call;defer.promise}
  */
 NgDexie.prototype.init = function (name, configuration, debug) {
-    this.getLog().debug('NgDexie :: init');
+    var self = this;
+    self.getLog().debug('NgDexie :: init');
 
-    var deferred = this.getQ().defer();
-    var options = this.getOptions();
+    var deferred = self.getQ().defer();
+    var options = self.getOptions();
 
     options.debug = angular.isDefined(debug) ? debug : false;
     if (options.debug) {
-        this.getLog().warn("NgDexie :: debug mode enabled");
+        self.getLog().warn("NgDexie :: debug mode enabled");
     }
 
     var db = new Dexie(name);
@@ -63,13 +78,23 @@ NgDexie.prototype.init = function (name, configuration, debug) {
 
     if (options.debug) {
         db.delete().then(function () {
-            this.getLog().warn("debug mode :: Database deleted");
+            self.getLog().warn("debug mode :: Database deleted");
         });
     }
 
-    configuration.call(this, db);
+    configuration.call(self, db);
     db.open();
     deferred.resolve(db);
+    db.syncable.on('statusChanged', function (newStatus, url) {
+        self.getScope().$apply(function () {
+            self.getScope().$broadcast("ngDexieStatusChanged", {status: newStatus, statusText: Dexie.Syncable.StatusTexts[newStatus], url: url});
+        });
+    });
+
+    // Make sure we log it when the database is locked
+    db.on('blocked', function () {
+        $log.warn('database seems to be blocked');
+    });
 
     return deferred.promise;
 };
@@ -116,6 +141,10 @@ NgDexie.prototype.getByKey = function (storeName, index, key) {
     return deferred.promise;
 };
 
+NgDexie.prototype.getStatus = function () {
+    return this.getStatus();
+};
+
 /**
  * Save an deepcloned value to the database (without $$hashKey)
  * @param {type} storeName
@@ -139,21 +168,30 @@ NgDexie.prototype.put = function (storeName, value) {
 NgDexie.prototype.resync = function (url, storeNames) {
     var cdb = this.getDb();
 
-    // Disconnect the synchronisation database
-    cdb.syncable.disconnect(url);
-
-    // Clear storenames
-    if (angular.isArray(storeNames)) {
-        angular.forEach(storeNames, function (storeName) {
-            cdb.table(storeName).clear();
-        });
+    if (!angular.isArray(storeNames)) {
+        storeNames = [storeNames];
     }
 
-    // Clear the synchronisation tables and reconnect when done
+    // Disconnect the synchronisation database
     cdb.syncable.disconnect(url).then(function () {
-        return cdb.syncable.delete(url);
-    }).then(function () {
-        return cdb.syncable.connect("iSyncRestProtocol", url);
+        var dbTables = [];
+        angular.forEach(storeNames, function (storeName) {
+            dbTables.push(cdb.table(storeName));
+        });
+    
+
+        cdb.transaction("rw", dbTables, function () {
+            // Clear storenames
+            angular.forEach(dbTables, function (dbTable) {
+                dbTable.clear()
+            });
+        }).then(function () {
+            return cdb.syncable.delete(url).then(function () {
+                setTimeout(function () {
+                    cdb.syncable.connect("iSyncRestProtocol", url);
+                }, 1500);
+            });
+        });
     });
 };
 
