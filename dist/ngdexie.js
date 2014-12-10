@@ -228,4 +228,4 @@ NgDexie.prototype.deepClone = function (value) {
 };
 
 // Register the service in angular
-angular.module('idb.utils').service('ngDexie', ["$http", "$q", "$log", NgDexie]);
+angular.module('idb.utils').service('ngDexie', ["$rootScope","$http", "$q", "$log", NgDexie]);
