@@ -93,7 +93,7 @@ NgDexie.prototype.init = function (name, configuration, debug) {
 
     // Make sure we log it when the database is locked
     db.on('blocked', function () {
-        $log.warn('database seems to be blocked');
+        self.getLog().warn('database seems to be blocked');
     });
 
     return deferred.promise;
