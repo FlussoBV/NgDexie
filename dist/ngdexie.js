@@ -113,6 +113,21 @@ NgDexie.prototype.list = function (storeName) {
 };
 
 /**
+ * Get entries from the database
+ * @param {type} storeName
+ * @param {type} index
+ * @param {type} key
+ * @returns {NgDexie@call;getQ@call;defer.promise}
+ */
+NgDexie.prototype.listByIndex = function (storeName, index, key) {
+    var deferred = this.getQ().defer();
+    this.getDb().table(storeName).where(index).equals(key).toArray(function (data) {
+        deferred.resolve(data);
+    });
+    return deferred.promise;
+};
+
+/**
  * Get one entrie from the database
  * @param {type} storeName
  * @param {type} key
@@ -136,7 +151,11 @@ NgDexie.prototype.get = function (storeName, key) {
 NgDexie.prototype.getByIndex = function (storeName, index, key) {
     var deferred = this.getQ().defer();
     this.getDb().table(storeName).where(index).equals(key).toArray(function (data) {
-        deferred.resolve(data);
+        if (angular.isArray(data) && data.length > 0) {
+            deferred.resolve(data[0]);
+        } else {
+            deferred.reject();
+        }
     });
     return deferred.promise;
 };
