@@ -1,10 +1,10 @@
 {
   "name": "NgDexie",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "authors": [
     "Martin Diphoorn <m.diphoorn@flusso.nl>"
   ],
-  "description": "AngularJS wrapper for DexieJS",
+  "description": "AngularJS wrapper for Dexie.js",
   "main": "dist/ngdexie.js",
   "moduleType": [
     "amd",

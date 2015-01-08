@@ -1,6 +1,13 @@
 'use strict';
 
 /**
+* NgDexie is an wrapper around Dexie.js javascript library
+* @version v0.0.8
+* @link https://github.com/FlussoBV/NgDexie
+* @license Apache License, http://www.apache.org/licenses/
+*/
+
+/**
  * Create idb.utils module
  */
 angular.module('idb.utils', ['ng']);
@@ -198,7 +205,6 @@ NgDexie.prototype.resync = function (url, storeNames) {
             dbTables.push(cdb.table(storeName));
         });
     
-
         cdb.transaction("rw", dbTables, function () {
             // Clear storenames
             angular.forEach(dbTables, function (dbTable) {

@@ -1,6 +1,6 @@
 #NgDexie#
 
-Angular wrapper around the DexieJS library.
+AngularJS wrapper around the Dexie.js library.
 
 ##Bower##
 

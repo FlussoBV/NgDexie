@@ -1,5 +1,6 @@
 #NgDexie#
 
+##Version 0.0.8 (not yet released)##
 
 
 ##Version 0.0.7 (2015-01-08)##
