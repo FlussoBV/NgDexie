@@ -1,7 +1,7 @@
 #NgDexie#
 
-#Major refactoring in v0.0.8, not compatible with older releases!#
-#!!Documentation is outdated!!#
+##Major refactoring in v0.0.8, not compatible with older releases!##
+##!!Documentation is outdated!!##
 quicknotes:  
 * Converter NgDexie to an provider
 * idb.utils is changed in ngdexie and ngdexie.sync
