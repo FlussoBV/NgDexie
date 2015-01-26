@@ -1,5 +1,33 @@
 #NgDexie#
 
+#Major refactoring in v0.0.8, not compatible with older releases!#
+#!!Documentation is outdated!!#
+quicknotes:  
+* Converter NgDexie to an provider
+* idb.utils is changed in ngdexie and ngdexie.sync
+* ngDexie.db has been removed
+* ngDexie.getDb() introduced which returns an dexie db, but can also run handle a function(db){} as parameter
+
+So now the config of your database is done in the config part of your app.
+```
+.config(function (ngDexieProvider) {
+    ngDexieProvider.setOptions({name: appConfig.database.name, debug: appConfig.database.debug});
+        ngDexieProvider.setConfiguration(function (db) {
+            db.version(1).stores({
+                notes: "++id,title",
+            });
+            db.on('error', function (err) {
+                // Catch all uncatched DB-related errors and exceptions
+                console.error("db error err=" + err);
+            });
+    });
+})
+```
+
+I hope too update the documentation soon, sorry for the inconvenience!
+
+
+
 AngularJS wrapper around the Dexie.js library.
 
 ##Bower##
