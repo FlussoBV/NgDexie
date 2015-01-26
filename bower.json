@@ -5,7 +5,7 @@
     "Martin Diphoorn <m.diphoorn@flusso.nl>"
   ],
   "description": "AngularJS wrapper for Dexie.js",
-  "main": "dist/ngdexie.js",
+  "main": "build/ngDexie.js",
   "moduleType": [
     "amd",
     "globals",
@@ -22,8 +22,10 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    "src",
     "test",
-    "tests"
+    "tests",
+    "example"
   ],
   "dependencies": {
     "angular": ">= 1.2.0",
