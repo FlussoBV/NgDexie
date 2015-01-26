@@ -22,10 +22,13 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    "lib",
     "src",
     "test",
     "tests",
-    "example"
+    "example",
+    "files.js",
+    "Gruntfile.js"
   ],
   "dependencies": {
     "angular": ">= 1.2.0",

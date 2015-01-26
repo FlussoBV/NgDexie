@@ -1,7 +1,10 @@
 #NgDexie#
 
-##Version 0.0.8 (not yet released)##
-
+##Version 0.0.8 (2015-01-26)##
+* Converter NgDexie to an provider
+* idb.utils is changed in ngdexie and ngdexie.sync
+* ngDexie.db has been removed
+* ngDexie.getDb() introduced which returns an Dexie.js handle (db), but can also handle a function(db){} as parameter
 
 ##Version 0.0.7 (2015-01-08)##
 
