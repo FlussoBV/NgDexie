@@ -23,6 +23,7 @@
      * @returns {ngDexie}
      */
     function ngDexie() {
+        /* jshint validthis: true */
         var self = this;
 
         ////
@@ -189,7 +190,6 @@
                 });
                 return deferred.promise;
             }
-            ;
         };
 
         self.$get.$inject = ['$rootScope', '$q', '$log', 'ngDexieUtils'];

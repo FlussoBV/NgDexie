@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.8-dev-2015-01-26
+ * @version v0.0.8-dev-2015-01-30
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, see LICENSE file
  */
@@ -10,7 +10,6 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
   module.exports = 'ngDexie';
 }
 
-(function (window, angular, undefined) {
 (function () {
     'use strict';
     /**
@@ -36,6 +35,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
      * @returns {ngDexie}
      */
     function ngDexie() {
+        /* jshint validthis: true */
         var self = this;
 
         ////
@@ -202,7 +202,6 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 });
                 return deferred.promise;
             }
-            ;
         };
 
         self.$get.$inject = ['$rootScope', '$q', '$log', 'ngDexieUtils'];
@@ -337,4 +336,4 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             return deferred.promise;
         }
     }
-})();})(window, window.angular);
+})();
