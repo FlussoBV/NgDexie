@@ -61,17 +61,18 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
         ////
         //// api part
         ////
-        self.$get = function ($rootScope, $q, $log, ngDexieUtils) {
+        
+        self.$get = /*@ngInject*/ ["$rootScope", "$q", "$log", "ngDexieUtils", function ($rootScope, $q, $log, ngDexieUtils) {
             $log.debug('NgDexie :: init');
             var options = getOptions();
 
+            // initialise Dexie object
+            var db = new Dexie(options.name);
+            
             // is debug enabled? Warn the developer
             if (options.debug) {
                 $log.warn("NgDexie :: debug mode enabled");
             }
-
-            // initialise Dexie object
-            var db = new Dexie(options.name);
 
             // Do we need to remove the database
             if (options.debug) {
@@ -202,9 +203,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 });
                 return deferred.promise;
             }
-        };
-
-        self.$get.$inject = ['$rootScope', '$q', '$log', 'ngDexieUtils'];
+        }];
 
         function getOptions() {
             return options;
@@ -266,8 +265,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
     angular.module('ngdexie.sync')
             .factory('ngDexieSync', ngDexieSync);
 
-    ngDexieSync.$inject = ['$log', '$rootScope', '$q', 'ngDexie'];
-
+    /*@ngInject*/
     function ngDexieSync($log, $rootScope, $q, ngDexie) {
         if (ngDexie.getDb().syncable) {
             ngDexie.getDb().syncable.on('statusChanged', function (newStatus, url) {
@@ -336,4 +334,5 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             return deferred.promise;
         }
     }
+    ngDexieSync.$inject = ["$log", "$rootScope", "$q", "ngDexie"];
 })();

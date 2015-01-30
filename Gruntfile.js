@@ -126,12 +126,24 @@ module.exports = function (grunt) {
                 src: ['src/**/*.js'],
                 title: 'API Reference'
             }
+        },
+        // ng-annotate tries to make the code safe for minification automatically
+        // by using the Angular long form for dependency injection.
+        ngAnnotate: {
+            dist: {
+                files: [{
+                        expand: true,
+                        cwd: 'build',
+                        src: ['*.js', '!oldieshim.js'],
+                        dest: 'build'
+                    }]
+            }
         }
     });
 
     grunt.registerTask('integrate', ['build', 'jshint', 'karma:unit', 'karma:past', 'karma:unstable']);
-    grunt.registerTask('default', ['build', 'jshint', 'karma:unit']);
-    grunt.registerTask('build', 'Perform a normal build', ['concat', 'uglify']);
+    grunt.registerTask('default', ['build', 'jshint', 'ngAnnotate', 'karma:unit']);
+    grunt.registerTask('build', 'Perform a normal build', ['concat', 'ngAnnotate', 'uglify']);
     grunt.registerTask('dist', 'Perform a clean build', ['clean', 'build']);
     grunt.registerTask('dist-docs', 'Perform a clean build and generate documentation', ['dist', 'ngdocs', 'widedocs']);
     grunt.registerTask('release', 'Tag and perform a release', ['prepare-release', 'dist', 'perform-release']);
