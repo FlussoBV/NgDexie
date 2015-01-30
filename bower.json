@@ -1,38 +1,39 @@
 {
-  "name": "NgDexie",
-  "version": "0.0.8",
-  "authors": [
-    "Martin Diphoorn <m.diphoorn@flusso.nl>"
-  ],
-  "description": "AngularJS wrapper for Dexie.js",
-  "main": "build/ngDexie.js",
-  "moduleType": [
-    "amd",
-    "globals",
-    "node"
-  ],
-  "keywords": [
-    "indexeddb",
-    "dexiejs",
-    "angular"
-  ],
-  "license": "Apache-2.0",
-  "homepage": "https://github.com/FlussoBV/NgDexie",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "lib",
-    "config",
-    "src",
-    "test",
-    "tests",
-    "example",
-    "files.js",
-    "Gruntfile.js"
-  ],
-  "dependencies": {
-    "angular": ">= 1.2.0",
-    "dexie": "~1.0.2"
-  }
+    "name": "NgDexie",
+    "version": "0.0.8",
+    "authors": [
+        "Martin Diphoorn <m.diphoorn@flusso.nl>"
+    ],
+    "description": "AngularJS wrapper for Dexie.js",
+    "main": "build/ngDexie.js",
+    "moduleType": [
+        "amd",
+        "globals",
+        "node"
+    ],
+    "keywords": [
+        "indexeddb",
+        "dexiejs",
+        "angular"
+    ],
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/FlussoBV/NgDexie",
+    "ignore": [
+        ".*",
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "lib",
+        "config",
+        "src",
+        "test",
+        "tests",
+        "example",
+        "files.js",
+        "Gruntfile.js"
+    ],
+    "dependencies": {
+        "angular": ">= 1.2.0",
+        "dexie": "~1.0.2"
+    }
 }
