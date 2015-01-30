@@ -1,5 +1,10 @@
 #NgDexie#
 
+##Version 0.0.9 (2015-01-30)##
+* Some small improvements
+* More project changes
+* Use ngAnnotate for build process
+
 ##Version 0.0.8 (2015-01-26)##
 * Converter NgDexie to an provider
 * idb.utils is changed in ngdexie and ngdexie.sync

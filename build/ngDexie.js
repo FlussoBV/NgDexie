@@ -1,8 +1,8 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.8-dev-2015-01-30
+ * @version v0.0.9 - build 2015-01-30
  * @link https://github.com/FlussoBV/NgDexie
- * @license Apache License, see LICENSE file
+ * @license Apache License, http://www.apache.org/licenses/
  */
 
 /* commonjs package manager support (eg componentjs) */
@@ -14,7 +14,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
     'use strict';
     /**
      * NgDexie is an wrapper around Dexie.js javascript library
-     * @version v0.0.8
+     * @version v0.0.9
      * @link https://github.com/FlussoBV/NgDexie
      * @license Apache License, http://www.apache.org/licenses/
      */
@@ -212,12 +212,6 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 })();
 (function () {
     'use strict';
-    /**
-     * NgDexie is an wrapper around Dexie.js javascript library
-     * @version v0.0.8
-     * @link https://github.com/FlussoBV/NgDexie
-     * @license Apache License, http://www.apache.org/licenses/
-     */
 
     /**
      * Create ngdexie.utils module

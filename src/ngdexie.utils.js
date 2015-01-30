@@ -1,11 +1,5 @@
 (function () {
     'use strict';
-    /**
-     * NgDexie is an wrapper around Dexie.js javascript library
-     * @version v0.0.8
-     * @link https://github.com/FlussoBV/NgDexie
-     * @license Apache License, http://www.apache.org/licenses/
-     */
 
     /**
      * Create ngdexie.utils module

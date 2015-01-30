@@ -8,13 +8,13 @@ module.exports = function (grunt) {
     grunt.initConfig({
         builddir: 'build',
         pkg: grunt.file.readJSON('package.json'),
-        buildtag: '-dev-' + grunt.template.today('yyyy-mm-dd'),
+        buildtag: ' - build ' + grunt.template.today('yyyy-mm-dd'),
         meta: {
             banner: '/**\n' +
                     ' * <%= pkg.description %>\n' +
                     ' * @version v<%= pkg.version %><%= buildtag %>\n' +
                     ' * @link <%= pkg.homepage %>\n' +
-                    ' * @license Apache License, see LICENSE file\n' +
+                    ' * @license Apache License, http://www.apache.org/licenses/\n' +
                     ' */'
         },
         clean: ['<%= builddir %>'],
