@@ -1,5 +1,8 @@
 #NgDexie#
 
+##Version 0.0.10 (2015-02-02)##
+* Added reopen feature
+
 ##Version 0.0.9 (2015-01-30)##
 * Some small improvements
 * More project changes

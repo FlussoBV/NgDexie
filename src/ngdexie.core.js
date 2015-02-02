@@ -1,11 +1,5 @@
 (function () {
     'use strict';
-    /**
-     * NgDexie is an wrapper around Dexie.js javascript library
-     * @version v0.0.9
-     * @link https://github.com/FlussoBV/NgDexie
-     * @license Apache License, http://www.apache.org/licenses/
-     */
 
     /**
      * Create ngdexie module
@@ -49,14 +43,14 @@
         ////
         //// api part
         ////
-        
+
         self.$get = /*@ngInject*/ function ($rootScope, $q, $log, ngDexieUtils) {
             $log.debug('NgDexie :: init');
             var options = getOptions();
 
             // initialise Dexie object
             var db = new Dexie(options.name);
-            
+
             // is debug enabled? Warn the developer
             if (options.debug) {
                 $log.warn("NgDexie :: debug mode enabled");
@@ -70,7 +64,12 @@
             }
 
             configuration.call(this, db);
-            db.open();
+            db.open().then(function(){
+                db.close();
+                db.open().then(function(){
+                    $log.debug("NgDexie :: database is open");
+                });
+            });
 
             // Make sure we log it when the database is locked
             db.on('blocked', function () {
@@ -85,7 +84,8 @@
                 getDb: getDb,
                 list: list,
                 listByIndex: listByIndex,
-                put: put
+                put: put,
+                reopen: reopen
             };
 
             /**
@@ -188,6 +188,23 @@
                 var deferred = $q.defer();
                 db.table(storeName).put(ngDexieUtils.deepClone(value)).then(function (data) {
                     deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+
+            /**
+             * Open and close the database. In between the given function will be called
+             * @param {type} handle
+             * @returns {$q@call;defer.promise}
+             */
+            function reopen(handle) {
+                var deferred = $q.defer();
+                db.close();
+                if (handle) {
+                    handle.call(this, db);
+                }
+                db.open().then(function () {
+                    deferred.resolve();
                 });
                 return deferred.promise;
             }

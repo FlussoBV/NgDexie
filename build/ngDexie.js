@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.9 - build 2015-01-30
+ * @version v0.0.10 - build 2015-02-02
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, http://www.apache.org/licenses/
  */
@@ -12,12 +12,6 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 
 (function () {
     'use strict';
-    /**
-     * NgDexie is an wrapper around Dexie.js javascript library
-     * @version v0.0.9
-     * @link https://github.com/FlussoBV/NgDexie
-     * @license Apache License, http://www.apache.org/licenses/
-     */
 
     /**
      * Create ngdexie module
@@ -61,14 +55,14 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
         ////
         //// api part
         ////
-        
+
         self.$get = /*@ngInject*/ ["$rootScope", "$q", "$log", "ngDexieUtils", function ($rootScope, $q, $log, ngDexieUtils) {
             $log.debug('NgDexie :: init');
             var options = getOptions();
 
             // initialise Dexie object
             var db = new Dexie(options.name);
-            
+
             // is debug enabled? Warn the developer
             if (options.debug) {
                 $log.warn("NgDexie :: debug mode enabled");
@@ -82,7 +76,12 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             }
 
             configuration.call(this, db);
-            db.open();
+            db.open().then(function(){
+                db.close();
+                db.open().then(function(){
+                    $log.debug("NgDexie :: database is open");
+                });
+            });
 
             // Make sure we log it when the database is locked
             db.on('blocked', function () {
@@ -97,7 +96,8 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 getDb: getDb,
                 list: list,
                 listByIndex: listByIndex,
-                put: put
+                put: put,
+                reopen: reopen
             };
 
             /**
@@ -200,6 +200,23 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 var deferred = $q.defer();
                 db.table(storeName).put(ngDexieUtils.deepClone(value)).then(function (data) {
                     deferred.resolve(data);
+                });
+                return deferred.promise;
+            }
+
+            /**
+             * Open and close the database. In between the given function will be called
+             * @param {type} handle
+             * @returns {$q@call;defer.promise}
+             */
+            function reopen(handle) {
+                var deferred = $q.defer();
+                db.close();
+                if (handle) {
+                    handle.call(this, db);
+                }
+                db.open().then(function () {
+                    deferred.resolve();
                 });
                 return deferred.promise;
             }
