@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.10 - build 2015-02-02
+ * @version v0.0.11 - build 2015-02-02
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, http://www.apache.org/licenses/
  */
