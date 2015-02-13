@@ -26,8 +26,7 @@
             resync: resync,
             unsyncedChanges: unsyncedChanges
         };
-
-
+        
         /**
          * Resync the database
          * @param {type} url
@@ -43,26 +42,29 @@
 
             // Disconnect the synchronisation database
             db.syncable.disconnect(url).then(function () {
-                var dbTables = [];
+                var clearTables = 0;
                 angular.forEach(storeNames, function (storeName) {
-                    dbTables.push(db.table(storeName));
+                    var dbTable = db.table(storeName);
+                    // Use single table transactions for safari
+                    db.transaction("rw", dbTable, function () {
+                        dbTable.clear();
+                    }).then(function () {
+                        clearTables++;
+                        if (clearTables === storeNames.length) {
+                            db.syncable.delete(url).then(function () {
+                                setTimeout(function () {
+                                    db.syncable.connect("iSyncRestProtocol", url);
+                                }, 1500);
+                            });
+                        }
+                    });
                 });
 
-                db.transaction("rw", dbTables, function () {
-                    // Clear storenames
-                    angular.forEach(dbTables, function (dbTable) {
-                        dbTable.clear();
-                    });
-                }).then(function () {
-                    return db.syncable.delete(url).then(function () {
-                        setTimeout(function () {
-                            db.syncable.connect("iSyncRestProtocol", url);
-                        }, 1500);
-                    });
-                });
             });
         }
 
+        /**
+         * Resync the database
         /**
          * Check if there are synchronisation changes
          * @param {type} url

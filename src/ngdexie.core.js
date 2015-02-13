@@ -64,9 +64,9 @@
             }
 
             configuration.call(this, db);
-            db.open().then(function(){
+            db.open().then(function () {
                 db.close();
-                db.open().then(function(){
+                db.open().then(function () {
                     $log.debug("NgDexie :: database is open");
                 });
             });
@@ -82,6 +82,7 @@
                 get: get,
                 getByIndex: getByIndex,
                 getDb: getDb,
+                getTransaction: getTransaction,
                 list: list,
                 listByIndex: listByIndex,
                 put: put,
@@ -148,6 +149,24 @@
                 }
 
                 return db;
+            }
+
+            /**
+             * Get an dexie.transaction in RW mode
+             * @param {type} storeName
+             * @param {type} handle which receives the transaction
+             * @returns {$q@call;defer.promise}
+             */
+            function getTransaction(storeName, handle) {
+                var deferred = $q.defer();
+                db.transaction("rw", storeName, function () {
+                    handle.call(self, db);
+                }).then(function () {
+                    deferred.resolve();
+                }).catch(function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
             }
 
             /**
