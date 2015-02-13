@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.11 - build 2015-02-02
+ * @version v0.0.12 - build 2015-02-13
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, http://www.apache.org/licenses/
  */
@@ -76,9 +76,9 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             }
 
             configuration.call(this, db);
-            db.open().then(function(){
+            db.open().then(function () {
                 db.close();
-                db.open().then(function(){
+                db.open().then(function () {
                     $log.debug("NgDexie :: database is open");
                 });
             });
@@ -94,6 +94,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 get: get,
                 getByIndex: getByIndex,
                 getDb: getDb,
+                getTransaction: getTransaction,
                 list: list,
                 listByIndex: listByIndex,
                 put: put,
@@ -160,6 +161,24 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 }
 
                 return db;
+            }
+
+            /**
+             * Get an dexie.transaction in RW mode
+             * @param {type} storeName
+             * @param {type} handle which receives the transaction
+             * @returns {$q@call;defer.promise}
+             */
+            function getTransaction(storeName, handle) {
+                var deferred = $q.defer();
+                db.transaction("rw", storeName, function () {
+                    handle.call(self, db);
+                }).then(function () {
+                    deferred.resolve();
+                }).catch(function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
             }
 
             /**
@@ -290,8 +309,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             resync: resync,
             unsyncedChanges: unsyncedChanges
         };
-
-
+        
         /**
          * Resync the database
          * @param {type} url
@@ -307,26 +325,29 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 
             // Disconnect the synchronisation database
             db.syncable.disconnect(url).then(function () {
-                var dbTables = [];
+                var clearTables = 0;
                 angular.forEach(storeNames, function (storeName) {
-                    dbTables.push(db.table(storeName));
+                    var dbTable = db.table(storeName);
+                    // Use single table transactions for safari
+                    db.transaction("rw", dbTable, function () {
+                        dbTable.clear();
+                    }).then(function () {
+                        clearTables++;
+                        if (clearTables === storeNames.length) {
+                            db.syncable.delete(url).then(function () {
+                                setTimeout(function () {
+                                    db.syncable.connect("iSyncRestProtocol", url);
+                                }, 1500);
+                            });
+                        }
+                    });
                 });
 
-                db.transaction("rw", dbTables, function () {
-                    // Clear storenames
-                    angular.forEach(dbTables, function (dbTable) {
-                        dbTable.clear();
-                    });
-                }).then(function () {
-                    return db.syncable.delete(url).then(function () {
-                        setTimeout(function () {
-                            db.syncable.connect("iSyncRestProtocol", url);
-                        }, 1500);
-                    });
-                });
             });
         }
 
+        /**
+         * Resync the database
         /**
          * Check if there are synchronisation changes
          * @param {type} url
