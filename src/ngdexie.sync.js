@@ -13,7 +13,7 @@
             .factory('ngDexieSync', ngDexieSync);
 
     /*@ngInject*/
-    function ngDexieSync($log, $rootScope, $q, ngDexie) {
+    function ngDexieSync($rootScope, $q, ngDexie) {
         if (ngDexie.getDb().syncable) {
             ngDexie.getDb().syncable.on('statusChanged', function (newStatus, url) {
                 $rootScope.$apply(function () {

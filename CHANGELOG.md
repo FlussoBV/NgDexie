@@ -1,5 +1,9 @@
 #NgDexie#
 
+##Version 0.0.13 ()##
+*
+
+
 ##Version 0.0.12 (2015-02-13)##
 * Change resync so it use an transaction for every table (safari)
 * Added getTransaction

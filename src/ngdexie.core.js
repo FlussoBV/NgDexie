@@ -11,7 +11,6 @@
     angular.module('ngdexie.core')
             .provider('ngDexie', ngDexie);
 
-
     /**
      * NgDexie Class
      * @returns {ngDexie}
