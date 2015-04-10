@@ -1,6 +1,6 @@
 {
     "name": "NgDexie",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "authors": [
         "Martin Diphoorn <m.diphoorn@flusso.nl>"
     ],
@@ -34,6 +34,6 @@
     ],
     "dependencies": {
         "angular": ">= 1.2.0",
-        "dexie": "~1.0.2"
+        "dexie": "https://github.com/martindiphoorn/Dexie.js.git#V1.0.4.1"
     }
 }
