@@ -4,7 +4,7 @@
     /**
      * Create ngdexie module
      */
-    angular.module('ngdexie', ['ngdexie.core']);
+    angular.module('ngdexie', ['ngdexie.core','ngdexie.ui']);
 
     angular.module('ngdexie.core', ['ngdexie.utils']);
 

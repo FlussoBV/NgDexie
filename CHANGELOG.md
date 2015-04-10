@@ -1,8 +1,8 @@
 #NgDexie#
 
-##Version 0.0.13 ()##
-*
-
+##Version 0.0.13 (2015-04-10)##
+* bind an object from the database on the scope
+* use our own dexie.js github fork as it contains some performance changes
 
 ##Version 0.0.12 (2015-02-13)##
 * Change resync so it use an transaction for every table (safari)

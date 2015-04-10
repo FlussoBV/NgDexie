@@ -2,7 +2,8 @@ routerFiles = {
     src: [
         'src/ngdexie.core.js',
         'src/ngdexie.utils.js',
-        'src/ngdexie.sync.js'
+        'src/ngdexie.sync.js',
+        'src/ngdexie.ui.js'
     ],
     testUtils: [
         'bower_components/dexie/dist/latest/Dexie.js',
