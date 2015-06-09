@@ -39,13 +39,10 @@
          * @returns {Function}
          */
         function debounce(func, wait, immediate) {
-            console.log("debounce 1");
             var timeout;
             return function () {
-                console.log("debounce 2");
                 var context = this, args = arguments;
                 var later = function () {
-                    console.log("debounce later");
                     timeout = null;
                     if (!immediate) {
                         func.apply(context, args);

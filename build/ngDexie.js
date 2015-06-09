@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.13 - build 2015-04-10
+ * @version v0.0.14 - build 2015-06-09
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, http://www.apache.org/licenses/
  */
@@ -286,13 +286,10 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
          * @returns {Function}
          */
         function debounce(func, wait, immediate) {
-            console.log("debounce 1");
             var timeout;
             return function () {
-                console.log("debounce 2");
                 var context = this, args = arguments;
                 var later = function () {
-                    console.log("debounce later");
                     timeout = null;
                     if (!immediate) {
                         func.apply(context, args);
@@ -307,93 +304,6 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             };
         }
     }
-})();
-(function () {
-    'use strict';
-
-    /**
-     * Create ngdexie.sync module
-     */
-    angular.module('ngdexie.sync', ['ngdexie.core']);
-
-    /**
-     * Create ngDexieUtils factory
-     */
-    angular.module('ngdexie.sync')
-            .factory('ngDexieSync', ngDexieSync);
-
-    /*@ngInject*/
-    function ngDexieSync($rootScope, $q, ngDexie) {
-        if (ngDexie.getDb().syncable) {
-            ngDexie.getDb().syncable.on('statusChanged', function (newStatus, url) {
-                $rootScope.$apply(function () {
-                    $rootScope.$broadcast("ngDexieStatusChanged", {status: newStatus, statusText: Dexie.Syncable.StatusTexts[newStatus], url: url});
-                });
-            });
-        }
-
-        return {
-            resync: resync,
-            unsyncedChanges: unsyncedChanges
-        };
-        
-        /**
-         * Resync the database
-         * @param {type} url
-         * @param {type} storeNames
-         * @returns {undefined}
-         */
-        function resync(url, storeNames) {
-            var db = ngDexie.getDb();
-
-            if (!angular.isArray(storeNames)) {
-                storeNames = [storeNames];
-            }
-
-            // Disconnect the synchronisation database
-            db.syncable.disconnect(url).then(function () {
-                var clearTables = 0;
-                angular.forEach(storeNames, function (storeName) {
-                    var dbTable = db.table(storeName);
-                    // Use single table transactions for safari
-                    db.transaction("rw", dbTable, function () {
-                        dbTable.clear();
-                    }).then(function () {
-                        clearTables++;
-                        if (clearTables === storeNames.length) {
-                            db.syncable.delete(url).then(function () {
-                                setTimeout(function () {
-                                    db.syncable.connect("iSyncRestProtocol", url);
-                                }, 1500);
-                            });
-                        }
-                    });
-                });
-
-            });
-        }
-
-        /**
-         * Resync the database
-        /**
-         * Check if there are synchronisation changes
-         * @param {type} url
-         * @returns {undefined}
-         */
-        function unsyncedChanges(url) {
-            var deferred = $q.defer();
-
-            var db = ngDexie.getDb();
-            if (angular.isDefined(db) && db.isOpen()) {
-                db.syncable.unsyncedChanges(url).then(function (data) {
-                    deferred.resolve(data);
-                });
-            }
-
-            return deferred.promise;
-        }
-    }
-    ngDexieSync.$inject = ["$rootScope", "$q", "ngDexie"];
 })();
 (function () {
     'use strict';

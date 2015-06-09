@@ -1,6 +1,6 @@
 {
     "name": "NgDexie",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "authors": [
         "Martin Diphoorn <m.diphoorn@flusso.nl>"
     ],
@@ -33,7 +33,6 @@
         "Gruntfile.js"
     ],
     "dependencies": {
-        "angular": ">= 1.2.0",
-        "dexie": "https://github.com/martindiphoorn/Dexie.js.git#V1.0.4.1"
+        "angular": ">= 1.2.0"
     }
 }
