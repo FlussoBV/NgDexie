@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.14 - build 2015-06-09
+ * @version v0.0.15 - build 2015-08-07
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, http://www.apache.org/licenses/
  */
@@ -16,7 +16,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
     /**
      * Create ngdexie module
      */
-    angular.module('ngdexie', ['ngdexie.core','ngdexie.ui']);
+    angular.module('ngdexie', ['ngdexie.core', 'ngdexie.ui']);
 
     angular.module('ngdexie.core', ['ngdexie.utils']);
 
@@ -96,6 +96,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 getTransaction: getTransaction,
                 list: list,
                 listByIndex: listByIndex,
+                remove: remove,
                 put: put,
                 reopen: reopen
             };
@@ -209,6 +210,26 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             }
 
             /**
+             * Remove an entrie from the database
+             * Note: we don't want to use a method called delete as it is a reserved keyword
+             * @param {type} storeName
+             * @param {type} key
+             * @returns {NgDexie@call;getQ@call;defer.promise}
+             */
+            function remove(storeName, key) {
+                var deferred = $q.defer();
+                ngDexie.getDb(function (db) {
+                    db.table(storeName).delete(key).then(function () {
+                        deferred.resolve();
+                    }).catch(function (err) {
+                        $log.debug("Error while using delete: " + err);
+                        deferred.reject(err);
+                    });
+                });
+                return deferred.promise;
+            }
+
+            /**
              * Save an deepcloned value to the database (without $$hashKey)
              * @param {type} storeName
              * @param {type} value
@@ -218,6 +239,9 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 var deferred = $q.defer();
                 db.table(storeName).put(ngDexieUtils.deepClone(value)).then(function (data) {
                     deferred.resolve(data);
+                }).catch(function (err) {
+                    $log.debug("Error while using put: " + err);
+                    deferred.reject(err);
                 });
                 return deferred.promise;
             }

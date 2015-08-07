@@ -1,5 +1,9 @@
 #NgDexie#
 
+##Version 0.0.15 (2015-08-07)##
+* Added remove function
+* Added promise.reject when using put
+
 ##Version 0.0.14 (2015-06-09)##
 * Dropped the unofficial support for dexiejs.syncable
 * Dropped the dexie.js fork as perfmance changes are in the core now

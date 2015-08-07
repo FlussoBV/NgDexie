@@ -4,7 +4,7 @@
     /**
      * Create ngdexie module
      */
-    angular.module('ngdexie', ['ngdexie.core','ngdexie.ui']);
+    angular.module('ngdexie', ['ngdexie.core', 'ngdexie.ui']);
 
     angular.module('ngdexie.core', ['ngdexie.utils']);
 
@@ -84,6 +84,7 @@
                 getTransaction: getTransaction,
                 list: list,
                 listByIndex: listByIndex,
+                remove: remove,
                 put: put,
                 reopen: reopen
             };
@@ -197,6 +198,26 @@
             }
 
             /**
+             * Remove an entrie from the database
+             * Note: we don't want to use a method called delete as it is a reserved keyword
+             * @param {type} storeName
+             * @param {type} key
+             * @returns {NgDexie@call;getQ@call;defer.promise}
+             */
+            function remove(storeName, key) {
+                var deferred = $q.defer();
+                ngDexie.getDb(function (db) {
+                    db.table(storeName).delete(key).then(function () {
+                        deferred.resolve();
+                    }).catch(function (err) {
+                        $log.debug("Error while using delete: " + err);
+                        deferred.reject(err);
+                    });
+                });
+                return deferred.promise;
+            }
+
+            /**
              * Save an deepcloned value to the database (without $$hashKey)
              * @param {type} storeName
              * @param {type} value
@@ -206,6 +227,9 @@
                 var deferred = $q.defer();
                 db.table(storeName).put(ngDexieUtils.deepClone(value)).then(function (data) {
                     deferred.resolve(data);
+                }).catch(function (err) {
+                    $log.debug("Error while using put: " + err);
+                    deferred.reject(err);
                 });
                 return deferred.promise;
             }
