@@ -6,7 +6,7 @@
 
 ##Version 0.0.14 (2015-06-09)##
 * Dropped the unofficial support for dexiejs.syncable
-* Dropped the dexie.js fork as perfmance changes are in the core now
+* Dropped the dexie.js fork as performance changes are in the core now
 
 ##Version 0.0.13 (2015-04-10)##
 * bind an object from the database on the scope
