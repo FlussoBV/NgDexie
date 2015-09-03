@@ -1,5 +1,8 @@
 #NgDexie#
 
+##Version 0.0.16 (2015-09-03)##
+* Fixed missing dependency to dexie
+
 ##Version 0.0.15 (2015-08-07)##
 * Added remove function
 * Added promise.reject when using put
