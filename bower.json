@@ -1,6 +1,6 @@
 {
     "name": "NgDexie",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "authors": [
         "Martin Diphoorn <m.diphoorn@flusso.nl>"
     ],
@@ -34,6 +34,14 @@
     ],
     "dependencies": {
         "angular": ">= 1.2.0",
-        "dexie": "~1.1.0"
+        "dexie": "~1.2.0"
+    },
+    "overrides": {
+        "dexie": {
+            "main": [
+                "dist/latest/Dexie.js",
+                "addons/Dexie.Observable/Dexie.Observable.js"
+            ]
+        }
     }
 }
