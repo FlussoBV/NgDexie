@@ -85,6 +85,7 @@
                 list: list,
                 listByIndex: listByIndex,
                 remove: remove,
+                add: add,
                 put: put,
                 reopen: reopen
             };
@@ -229,6 +230,23 @@
                     deferred.resolve(data);
                 }).catch(function (err) {
                     $log.debug("Error while using put: " + err);
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            }
+            
+            /**
+             * Add an deepcloned value to the database (without $$hashKey)
+             * @param {type} storeName
+             * @param {type} value
+             * @returns {NgDexie@call;getQ@call;defer.promise}
+             */
+            function add(storeName, value) {
+                var deferred = $q.defer();
+                db.table(storeName).add(ngDexieUtils.deepClone(value)).then(function (data) {
+                    deferred.resolve(data);
+                }).catch(function (err) {
+                    $log.debug("Error while using add: " + err);
                     deferred.reject(err);
                 });
                 return deferred.promise;
