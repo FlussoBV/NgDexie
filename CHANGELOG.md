@@ -1,5 +1,11 @@
 #NgDexie#
 
+##Version 0.0.18 (unreleased)##
+* Added an add version which is a little bit faster then a put
+
+##Version 0.0.17 (2016-03-07)##
+* Upgraded to dexie.js v1.2.0
+
 ##Version 0.0.16 (2015-09-03)##
 * Fixed missing dependency to dexie
 
