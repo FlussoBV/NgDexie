@@ -1,5 +1,5 @@
 {
-    "name": "ngDexie",
+    "name": "ngdexie",
     "version": "0.0.17",
     "description": "Angularjs wrapper around Dexie.js an IndexedDB handler",
     "keywords": [
