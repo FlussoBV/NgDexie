@@ -1,7 +1,8 @@
 #NgDexie#
 
-##Version 0.0.18 (unreleased)##
+##Version 0.0.18 (2016-03-08)##
 * Added an add version which is a little bit faster then a put
+* Make ngDexie npm ready
 
 ##Version 0.0.17 (2016-03-07)##
 * Upgraded to dexie.js v1.2.0
