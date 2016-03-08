@@ -18,11 +18,7 @@
         "type": "git",
         "url": "https://github.com/FlussoBV/NgDexie.git"
     },
-    "licenses": [
-        {
-            "type": "APACHE"
-        }
-    ],
+    "license" : "See license in LICENSE",
     "devDependencies": {
         "grunt": "~0.4.1",
         "grunt-contrib-concat": "~0.3.0",
