@@ -1,5 +1,5 @@
 {
-    "name": "ngDexie",
+    "name": "ng-dexie",
     "version": "0.0.17",
     "description": "Angularjs wrapper around Dexie.js an IndexedDB handler",
     "keywords": [
@@ -18,11 +18,7 @@
         "type": "git",
         "url": "https://github.com/FlussoBV/NgDexie.git"
     },
-    "licenses": [
-        {
-            "type": "APACHE"
-        }
-    ],
+    "license" : "See license in LICENSE",
     "devDependencies": {
         "grunt": "~0.4.1",
         "grunt-contrib-concat": "~0.3.0",
