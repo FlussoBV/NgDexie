@@ -98,9 +98,9 @@
              */
             function get(storeName, key) {
                 var deferred = $q.defer();
-                db.table(storeName).get(key, function (data) {
-                    deferred.resolve(data);
-                });
+                db.table(storeName).get(key)
+                  .then(deferred.resolve)
+                  .catch(deferred.reject);
                 return deferred.promise;
             }
 
@@ -177,9 +177,9 @@
              */
             function list(storeName) {
                 var deferred = $q.defer();
-                db.table(storeName).toArray(function (data) {
-                    deferred.resolve(data);
-                });
+                db.table(storeName).toArray()
+                  .then(deferred.resolve)
+                  .catch(deferred.reject);
                 return deferred.promise;
             }
 
@@ -192,9 +192,9 @@
              */
             function listByIndex(storeName, index, key) {
                 var deferred = $q.defer();
-                db.table(storeName).where(index).equals(key).toArray(function (data) {
-                    deferred.resolve(data);
-                });
+                db.table(storeName).where(index).equals(key).toArray()
+                  .then(deferred.resolve)
+                  .catch(deferred.reject);
                 return deferred.promise;
             }
 
@@ -234,7 +234,7 @@
                 });
                 return deferred.promise;
             }
-            
+
             /**
              * Add an deepcloned value to the database (without $$hashKey)
              * @param {type} storeName
