@@ -207,14 +207,12 @@
              */
             function remove(storeName, key) {
                 var deferred = $q.defer();
-                ngDexie.getDb(function (db) {
-                    db.table(storeName).delete(key).then(function () {
-                        deferred.resolve();
-                    }).catch(function (err) {
-                        $log.debug("Error while using delete: " + err);
-                        deferred.reject(err);
-                    });
-                });
+				db.table(storeName).delete(key).then(function () {
+					deferred.resolve();
+				}).catch(function (err) {
+					$log.debug("Error while using delete: " + err);
+					deferred.reject(err);
+				});
                 return deferred.promise;
             }
 
