@@ -1,5 +1,10 @@
 #NgDexie#
 
+##Version 0.0.19 (???)##
+* Renamed main file to ng-dexie.js
+* Fixed the remove call
+* Fixed Missing catch was causing a DatabaseClosedError (thanks benamib)
+
 ##Version 0.0.18 (2016-03-08)##
 * Added an add version which is a little bit faster then a put
 * Make ngDexie npm ready

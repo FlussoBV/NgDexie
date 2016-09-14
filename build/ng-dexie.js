@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.17 - build 2016-03-08
+ * @version v0.0.19 - build 2016-09-14
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, http://www.apache.org/licenses/
  */
@@ -110,9 +110,9 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
              */
             function get(storeName, key) {
                 var deferred = $q.defer();
-                db.table(storeName).get(key, function (data) {
-                    deferred.resolve(data);
-                });
+                db.table(storeName).get(key)
+                  .then(deferred.resolve)
+                  .catch(deferred.reject);
                 return deferred.promise;
             }
 
@@ -189,9 +189,9 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
              */
             function list(storeName) {
                 var deferred = $q.defer();
-                db.table(storeName).toArray(function (data) {
-                    deferred.resolve(data);
-                });
+                db.table(storeName).toArray()
+                  .then(deferred.resolve)
+                  .catch(deferred.reject);
                 return deferred.promise;
             }
 
@@ -204,9 +204,9 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
              */
             function listByIndex(storeName, index, key) {
                 var deferred = $q.defer();
-                db.table(storeName).where(index).equals(key).toArray(function (data) {
-                    deferred.resolve(data);
-                });
+                db.table(storeName).where(index).equals(key).toArray()
+                  .then(deferred.resolve)
+                  .catch(deferred.reject);
                 return deferred.promise;
             }
 
@@ -219,14 +219,12 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
              */
             function remove(storeName, key) {
                 var deferred = $q.defer();
-                ngDexie.getDb(function (db) {
-                    db.table(storeName).delete(key).then(function () {
-                        deferred.resolve();
-                    }).catch(function (err) {
-                        $log.debug("Error while using delete: " + err);
-                        deferred.reject(err);
-                    });
-                });
+				db.table(storeName).delete(key).then(function () {
+					deferred.resolve();
+				}).catch(function (err) {
+					$log.debug("Error while using delete: " + err);
+					deferred.reject(err);
+				});
                 return deferred.promise;
             }
 
@@ -246,7 +244,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 });
                 return deferred.promise;
             }
-            
+
             /**
              * Add an deepcloned value to the database (without $$hashKey)
              * @param {type} storeName
@@ -287,6 +285,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
         }
     }
 })();
+
 (function () {
     'use strict';
     /**

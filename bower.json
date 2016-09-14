@@ -1,11 +1,11 @@
 {
     "name": "NgDexie",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "authors": [
         "Martin Diphoorn <m.diphoorn@flusso.nl>"
     ],
     "description": "AngularJS wrapper for Dexie.js",
-    "main": "build/ngDexie.js",
+    "main": "build/ng-dexie.js",
     "moduleType": [
         "amd",
         "globals",
