@@ -58,6 +58,7 @@
                 remove: remove,
                 add: add,
                 put: put,
+                reopen: reopen,
                 loadDb: loadDb
             };
             /**

@@ -70,6 +70,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 remove: remove,
                 add: add,
                 put: put,
+                reopen: reopen,
                 loadDb: loadDb
             };
             /**
