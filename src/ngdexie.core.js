@@ -45,36 +45,7 @@
 
         self.$get = /*@ngInject*/ function ($rootScope, $q, $log, ngDexieUtils) {
             $log.debug('NgDexie :: init');
-            var options = getOptions();
-
-            // initialise Dexie object
-            var db = new Dexie(options.name);
-
-            // is debug enabled? Warn the developer
-            if (options.debug) {
-                $log.warn("NgDexie :: debug mode enabled");
-            }
-
-            // Do we need to remove the database
-            if (options.debug) {
-                db.delete().then(function () {
-                    $log.warn("debug mode :: Database deleted");
-                });
-            }
-
-            configuration.call(this, db);
-            db.open().then(function () {
-                db.close();
-                db.open().then(function () {
-                    $log.debug("NgDexie :: database is open");
-                });
-            });
-
-            // Make sure we log it when the database is locked
-            db.on('blocked', function () {
-                $log.warn('database seems to be blocked');
-            });
-
+            var db = initDb(getOptions());
 
             return {
                 getOptions: getOptions,
@@ -87,8 +58,52 @@
                 remove: remove,
                 add: add,
                 put: put,
-                reopen: reopen
+                reopen: reopen,
+                loadDb: loadDb
             };
+            /**
+             * Load the db Dexie object in the ngDexie
+             * @param {type} options
+             */
+            function loadDb(options) {
+                db.close();
+                db = initDb(options);
+            }
+
+            /**
+             * initialise the db Dexie object
+             * @param {type} options
+             * @returns {Dexie} db
+             */
+            function initDb(options) {
+                // initialise Dexie object
+                var dexie = new Dexie(options.name);
+                // is debug enabled? Warn the developer
+                if (options.debug) {
+                    $log.warn("NgDexie :: debug mode enabled");
+                }
+
+                // Do we need to remove the database
+                if (options.debug) {
+                    dexie.delete().then(function () {
+                        $log.warn("debug mode :: Database deleted");
+                    });
+                }
+
+                configuration.call(self, dexie);
+                dexie.open().then(function () {
+                    dexie.close();
+                    dexie.open().then(function () {
+                        $log.debug("NgDexie :: database is open");
+                    });
+                });
+
+                // Make sure we log it when the database is locked
+                dexie.on('blocked', function () {
+                    $log.warn('database seems to be blocked');
+                });
+                return dexie;
+            }
 
             /**
              * Get one entrie from the database
