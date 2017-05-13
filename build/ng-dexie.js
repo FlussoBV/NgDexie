@@ -45,10 +45,12 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 
         self.setOptions = function (value) {
             options = angular.extend({}, options, value);
+            return self;
         };
 
         self.setConfiguration = function (handle) {
             configuration = handle;
+            return self;
         };
 
         ////
