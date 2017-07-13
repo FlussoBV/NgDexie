@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.19 - build 2017-01-06
+ * @version v0.0.19 - build 2017-07-13
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, http://www.apache.org/licenses/
  */
@@ -10,7 +10,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
   module.exports = 'ngDexie';
 }
 
-(function () {
+(function (angular) {
     'use strict';
 
     /**
@@ -60,18 +60,19 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             var db = initDb(getOptions());
 
             return {
-                getOptions: getOptions,
+                add: add,
+                clear: clear,
                 get: get,
                 getByIndex: getByIndex,
                 getDb: getDb,
+                getOptions: getOptions,
                 getTransaction: getTransaction,
                 list: list,
                 listByIndex: listByIndex,
-                remove: remove,
-                add: add,
+                loadDb: loadDb,
                 put: put,
-                reopen: reopen,
-                loadDb: loadDb
+                remove: remove,
+                reopen: reopen
             };
             /**
              * Load the db Dexie object in the ngDexie
@@ -293,15 +294,31 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 });
                 return deferred.promise;
             }
+
+            /**
+             * Clear the store
+             * @param {type} storeName
+             * @returns {NgDexie@call;getQ@call;defer.promise}
+             */
+            function clear(storeName) {
+                var deferred = $q.defer();
+                db.table(storeName).clear().then(function (data) {
+                    deferred.resolve(data);
+                }).catch(function (err) {
+                    $log.debug("Error while using clear: " + err);
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            }
         }];
 
         function getOptions() {
             return options;
         }
     }
-})();
+})(angular);
 
-(function () {
+(function (angular) {
     'use strict';
     /**
      * Create ngdexie.utils module
@@ -360,8 +377,8 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             };
         }
     }
-})();
-(function () {
+})(angular);
+(function (angular) {
     'use strict';
 
     /**
@@ -526,4 +543,4 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
         }
     }
     ngDexieBind.$inject = ["$parse", "$log", "ngDexie", "ngDexieUtils"];
-})();
+})(angular);

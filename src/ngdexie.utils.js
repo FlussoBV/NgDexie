@@ -1,4 +1,4 @@
-(function () {
+(function (angular) {
     'use strict';
     /**
      * Create ngdexie.utils module
@@ -57,4 +57,4 @@
             };
         }
     }
-})();
+})(angular);

@@ -1,4 +1,4 @@
-(function () {
+(function (angular) {
     'use strict';
 
     /**
@@ -48,18 +48,19 @@
             var db = initDb(getOptions());
 
             return {
-                getOptions: getOptions,
+                add: add,
+                clear: clear,
                 get: get,
                 getByIndex: getByIndex,
                 getDb: getDb,
+                getOptions: getOptions,
                 getTransaction: getTransaction,
                 list: list,
                 listByIndex: listByIndex,
-                remove: remove,
-                add: add,
+                loadDb: loadDb,
                 put: put,
-                reopen: reopen,
-                loadDb: loadDb
+                remove: remove,
+                reopen: reopen
             };
             /**
              * Load the db Dexie object in the ngDexie
@@ -281,10 +282,26 @@
                 });
                 return deferred.promise;
             }
+
+            /**
+             * Clear the store
+             * @param {type} storeName
+             * @returns {NgDexie@call;getQ@call;defer.promise}
+             */
+            function clear(storeName) {
+                var deferred = $q.defer();
+                db.table(storeName).clear().then(function (data) {
+                    deferred.resolve(data);
+                }).catch(function (err) {
+                    $log.debug("Error while using clear: " + err);
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            }
         };
 
         function getOptions() {
             return options;
         }
     }
-})();
+})(angular);

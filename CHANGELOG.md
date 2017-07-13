@@ -1,7 +1,9 @@
 #NgDexie#
 
-##Version 0.0.19 (???)##
+##Version 0.0.19 (2017-07-13)##
 * Renamed main file to ng-dexie.js
+* Added clear
+* Accepted merge request for loadDb (thanks magori)
 * Fixed the remove call
 * Fixed Missing catch was causing a DatabaseClosedError (thanks benamib)
 
