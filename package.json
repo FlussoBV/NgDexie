@@ -1,6 +1,6 @@
 {
     "name": "ng-dexie",
-    "version": "0.0.19",
+    "version": "0.0.20",
     "description": "Angularjs wrapper around Dexie.js an IndexedDB handler",
     "keywords": [
         "angular",

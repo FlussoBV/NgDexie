@@ -1,6 +1,6 @@
 /**
  * Angularjs wrapper around Dexie.js an IndexedDB handler
- * @version v0.0.19 - build 2017-07-13
+ * @version v0.0.20 - build 2017-07-18
  * @link https://github.com/FlussoBV/NgDexie
  * @license Apache License, http://www.apache.org/licenses/
  */
@@ -350,7 +350,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             if (angular.isDefined(clone.$$hashKey)) {
                 delete(clone.$$hashKey);
             }
-            return value;
+            return clone;
         }
 
         /**
