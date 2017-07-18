@@ -28,7 +28,7 @@
             if (angular.isDefined(clone.$$hashKey)) {
                 delete(clone.$$hashKey);
             }
-            return value;
+            return clone;
         }
 
         /**
