@@ -1,4 +1,4 @@
-#NgDexie#
+# NgDexie #
 ngDexie is a angular wrapper around the dexie.js library.
 
 ## QuickStart ##
