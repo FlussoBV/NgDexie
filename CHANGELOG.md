@@ -1,5 +1,8 @@
 # NgDexie #
 
+## Version 0.0.21 (2017-07-21) ##
+* Dexie.js 1.5.1 seems to be failing on android. Return to 1.4.2
+
 ## Version 0.0.20 (2017-07-18) ##
 * Improve ngDexie interface with method chaining (thanks FelipeBarrosCruz)
 * Fix error in deepClone (thanks JanDouweVonk)
